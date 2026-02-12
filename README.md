@@ -6,6 +6,7 @@ Repository ini hanya untuk **membuild Docker image** dari repo sumber dan **push
 - Checkout repo sumber `lubluniky/ubot`
 - Build Docker image dari `Dockerfile` di root repo sumber
 - Push image ke `ghcr.io/banghasan/go-ubot`
+  - Workflow mem-patch base image Go ke `golang:1.25-alpine` dan set `GOTOOLCHAIN=auto` sebagai fallback
 
 ## Cara pakai (manual)
 1. Buka tab **Actions** di GitHub repo ini.

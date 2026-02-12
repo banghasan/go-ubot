@@ -27,6 +27,11 @@ jobs:
           ref: ${{ inputs.ref }}
           path: src
 
+      - name: Patch base Go image
+        run: |
+          sed -i 's|^FROM golang:1\\.23-alpine|FROM golang:1.25-alpine|' src/Dockerfile
+          sed -i 's|^RUN go mod download|ENV GOTOOLCHAIN=auto\\nRUN go mod download|' src/Dockerfile
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
