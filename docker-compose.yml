@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  ubot:
+    image: ghcr.io/banghasan/go-ubot:${UBOT_TAG:-latest}
+    container_name: ubot
+    restart: unless-stopped
+
+    # Mount config and workspace
+    volumes:
+      - ~/.ubot:/home/ubot/.ubot
+
+    # Expose gateway port (local only)
+    ports:
+      - "127.0.0.1:18790:18790"
+
+    # Environment variables (optional overrides)
+    environment:
+      - TZ=${TZ:-UTC}
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+
+    # Read-only root filesystem (data stored in volume)
+    read_only: true
+    tmpfs:
+      - /tmp:size=64M,mode=1777
+
+    # Resource limits (for compose v2)
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 128M
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "ubot", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
