@@ -1,10 +1,9 @@
-version: '3.8'
-
 services:
   ubot:
     image: ghcr.io/banghasan/go-ubot:${UBOT_TAG:-latest}
     container_name: ubot
     restart: unless-stopped
+    user: "${UID:-1000}:${GID:-1000}"
 
     # Mount config and workspace
     volumes:
@@ -31,10 +30,10 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '1.0'
+          cpus: "1.0"
           memory: 512M
         reservations:
-          cpus: '0.25'
+          cpus: "0.25"
           memory: 128M
 
     # Health check

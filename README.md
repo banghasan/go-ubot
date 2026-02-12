@@ -85,6 +85,16 @@ Menjalankan gateway dengan tag tertentu:
 Interactive chat:
 `docker compose run --rm ubot agent`
 
+### Atasi error permission denied
+Jika muncul error seperti `failed to create sessions directory`:
+
+```bash
+mkdir -p ~/.ubot/workspace ~/.ubot/sessions ~/.ubot/workspace/memory
+sudo chown -R "${USER}":"${USER}" ~/.ubot
+```
+
+Compose juga sudah diset `user: "${UID}:${GID}"` agar permission konsisten.
+
 ## Contoh konfigurasi (sesuai repo sumber)
 File config default di container: `~/.ubot/config.json`  
 Karena volume di-mount ke `~/.ubot`, buat file di host:
