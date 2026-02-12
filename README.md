@@ -85,6 +85,71 @@ Menjalankan gateway dengan tag tertentu:
 Interactive chat:
 `docker compose run --rm ubot agent`
 
+## Contoh konfigurasi (sesuai repo sumber)
+File config default di container: `~/.ubot/config.json`  
+Karena volume di-mount ke `~/.ubot`, buat file di host:
+
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": "anthropic/claude-sonnet-4-20250514",
+      "maxTokens": 4096,
+      "temperature": 0.7
+    }
+  },
+  "providers": {
+    "openrouter": { "apiKey": "sk-or-v1-xxx" },
+    "copilot": { "enabled": true, "accessToken": "gho_xxx" },
+    "anthropic": { "apiKey": "sk-ant-xxx" },
+    "openai": { "apiKey": "sk-xxx" },
+    "ollama": { "apiBase": "http://localhost:11434/v1" }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "token": "123456:ABC...",
+      "allowFrom": ["your_user_id"]
+    }
+  },
+  "tools": {
+    "web": {
+      "search": { "apiKey": "BSA..." }
+    }
+  },
+  "mcp": {
+    "servers": []
+  }
+}
+```
+
+Catatan:
+- Sesuaikan `model` dan provider sesuai kebutuhan.
+- Jika hanya pakai satu provider, yang lain bisa dihapus.
+
+## Contoh konfigurasi minimal (OpenAI + Telegram)
+```json
+{
+  "agents": {
+    "defaults": {
+      "model": "openai/gpt-4o-mini",
+      "maxTokens": 2048,
+      "temperature": 0.7
+    }
+  },
+  "providers": {
+    "openai": { "apiKey": "sk-xxx" }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "token": "123456:ABC...",
+      "allowFrom": ["your_user_id"]
+    }
+  }
+}
+```
+
 ## Catatan
 - Repo sumber publik, jadi tidak butuh token khusus untuk checkout.
 - Jika nanti repo sumber jadi private, tambahkan `SOURCE_REPO_PAT` pada Secrets dan gunakan di langkah checkout.
